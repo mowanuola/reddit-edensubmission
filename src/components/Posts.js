@@ -16,6 +16,10 @@ export const Posts = ({ posts, sort }) => {
     let day = date * 1000;
     return new Date(day).toDateString();
   };
+  const formatNumber = (number) => {
+    let nfObject = new Intl.NumberFormat("en-US");
+    return nfObject.format(number);
+  };
 
   return (
     <div>
@@ -28,7 +32,7 @@ export const Posts = ({ posts, sort }) => {
                 header={item.data.subreddit}
                 title={item.data.title}
                 image={item.data.thumbnail}
-                subtitle={item.data.ups}
+                subtitle={formatNumber(item.data.ups)}
                 link={item.data.url}
                 date={formatDate(item.data.created_utc)}
               />
@@ -41,7 +45,7 @@ export const Posts = ({ posts, sort }) => {
                 header={item.data.subreddit}
                 title={item.data.title}
                 image={item.data.thumbnail}
-                subtitle={item.data.ups}
+                subtitle={formatNumber(item.data.ups)}
                 link={item.data.url}
                 date={formatDate(item.data.created_utc)}
               />

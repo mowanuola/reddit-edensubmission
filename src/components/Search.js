@@ -41,21 +41,26 @@ export const Search = () => {
   return (
     <div className="container mt-4">
       <div className="row">
-        <div className="col-10">
-          <div className="row mb-4">
+        <div className="col-8">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">
+                <i class="fas fa-search"></i>
+              </span>
+            </div>
             <input
               type="text"
               className="form-control col-6"
               name="query"
               value={search.query}
               onChange={handleChange}
+              placeholder="Search..."
+              aria-label="Search"
+              aria-describedby="basic-addon1"
             />
-            <div className="col-2 d-flex align-items-end">
-              <button className="btn btn-md">Search</button>
-            </div>
           </div>
         </div>
-        <div className="col-2 text-right">
+        <div className="col-4 text-right">
           <p>
             <input type="checkbox" onClick={handleClick} />
             Sort by {!posts.sort ? "Descending" : "Ascending"}

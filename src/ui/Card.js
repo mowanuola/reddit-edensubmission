@@ -32,7 +32,7 @@ export const Card = ({
               {subtitle && (
                 <>
                   <p className="text-muted mr-3 text-right">
-                    <small>{subtitle}</small>
+                    <small>{subtitle}</small> <i class="fas fa-angle-up"></i>
                   </p>
                 </>
               )}
