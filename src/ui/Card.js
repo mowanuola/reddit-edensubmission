@@ -15,14 +15,15 @@ export const Card = ({
     <div className="card mb-4" style={{ maxWidth: "100%", maxHeight: "100%" }}>
       <div className="row no-gutters">
         <div className="col-md-4">
-          <img src={image} className="card-img" style={{ height: "15em" }} />
+          <img src={image} className="card-img" style={{ height: "17em" }} />
         </div>
         <div className="col-md-8">
+          <div className="card-header">{header}</div>
           <div className="card-body">
             <div className="row justify-content-between">
               {title && (
                 <div className="col-10">
-                  <h4 className="card-header-title">{title}</h4>
+                  <h4 className="card-title">{title}</h4>
                   <div className="card-text">
                     <span>{date}</span>
                   </div>
