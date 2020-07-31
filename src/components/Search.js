@@ -45,7 +45,7 @@ export const Search = () => {
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="basic-addon1">
-                <i class="fas fa-search"></i>
+                <i class="fas fa-search" style={{ color: "#ff4500 " }}></i>
               </span>
             </div>
             <input

@@ -18,7 +18,9 @@ export const Card = ({
           <img src={image} className="card-img" style={{ height: "17em" }} />
         </div>
         <div className="col-md-8">
-          <div className="card-header">{header}</div>
+          <div className="card-header" style={{ backgroundColor: "#ff450005" }}>
+            {header}
+          </div>
           <div className="card-body">
             <div className="row justify-content-between">
               {title && (
@@ -33,7 +35,11 @@ export const Card = ({
               {subtitle && (
                 <>
                   <p className="text-muted mr-3 text-right">
-                    <small>{subtitle}</small> <i class="fas fa-angle-up"></i>
+                    <small>{subtitle}</small>{" "}
+                    <i
+                      class="fas fa-angle-up"
+                      style={{ color: "#ff4500 " }}
+                    ></i>
                   </p>
                 </>
               )}
