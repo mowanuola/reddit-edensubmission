@@ -13,8 +13,16 @@ export const Posts = ({ posts, sort }) => {
     setActivePage(pageNumber);
   };
   const formatDate = (date) => {
-    let day = date * 1000;
-    return new Date(day).toDateString();
+    let day = new Date(date * 1000);
+    return (
+      day.toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }) +
+      " " +
+      day.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
+    );
   };
   const formatNumber = (number) => {
     let nfObject = new Intl.NumberFormat("en-US");
@@ -23,7 +31,7 @@ export const Posts = ({ posts, sort }) => {
 
   return (
     <div>
-      {posts !== false ? (
+      {posts !== null ? (
         !sort ? (
           currentPosts
             .sort((a, b) => a.data.ups - b.data.ups)

@@ -6,6 +6,14 @@ export const Search = () => {
     cards: null,
     sort: false,
   });
+  const [search, setSearch] = useState({
+    query: "",
+  });
+  const [filter, setFilter] = useState({
+    date: "",
+    upvotes: "",
+  });
+  const [searchPosts, setSearchPosts] = useState(null);
   useEffect(() => {
     const data = async () => {
       fetch("https://www.reddit.com/.json", {
@@ -23,24 +31,86 @@ export const Search = () => {
     };
     data();
   }, []);
-  const [search, setSearch] = useState({
-    query: "",
-    message: "",
-  });
-  const handleChange = (e) => {
+  const handleSearchChange = (e) => {
     setSearch({ ...search, [e.target.name]: e.target.value });
+    setSearchPosts(
+      posts.cards !== null &&
+        posts.cards.filter((post) => {
+          return post.data.title.toLowerCase().includes(search.query);
+        })
+    );
   };
+  
+  const handleFilterChange = (e) => {
+    setFilter({ ...filter, [e.target.name]: e.target.value });
+  };
+  const handleClear = () => {
+    setFilter({ date: "", upvotes: "" });
+    setSearch({ query: "" });
+    setSearchPosts(posts.cards);
+  };
+
   const handleClick = () => {
     setPosts({ ...posts, sort: !posts.sort });
   };
-  const searchPosts =
-    posts.cards !== null &&
-    posts.cards.filter((post) => {
-      return post.data.title.toLowerCase().includes(search.query);
-    });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { date, upvotes } = filter;
+    let format = new Date(Date.parse(date));
+    if (date) {
+      setSearchPosts(
+        posts.cards !== null &&
+          posts.cards.filter((post) => {
+            let day = new Date(post.data.created_utc * 1000);
+
+            return (
+              day.toLocaleDateString("en-US") ===
+              format.toLocaleDateString("en-US")
+            );
+          })
+      );
+    } else if (upvotes) {
+      setSearchPosts(
+        posts.cards !== null &&
+          posts.cards.filter((post) => {
+            return post.data.ups === parseInt(upvotes);
+          })
+      );
+    } else {
+      return searchPosts;
+    }
+  };
+
   return (
     <div className="container mt-4">
-      <div className="row">
+      <form className="row mb-3" onSubmit={handleSubmit}>
+        <div className="col-4">
+          <input
+            type="date"
+            className="form-control"
+            name="date"
+            onChange={handleFilterChange}
+          />
+        </div>
+        <div className="col-4">
+          <input
+            type="number"
+            className="form-control"
+            name="upvotes"
+            placeholder="Filter by upvotes..."
+            onChange={handleFilterChange}
+          />
+        </div>
+        <div className="col-2 d-flex align-items-end">
+          <button className="btn">Filter</button>
+        </div>
+        <div className="col-2 d-flex align-items-end">
+          <button className="btn clear" onClick={handleClear}>
+            Clear
+          </button>
+        </div>
+      </form>
+      <div className="row ">
         <div className="col-8">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -53,7 +123,7 @@ export const Search = () => {
               className="form-control col-6"
               name="query"
               value={search.query}
-              onChange={handleChange}
+              onChange={handleSearchChange}
               placeholder="Search..."
               aria-label="Search"
               aria-describedby="basic-addon1"
@@ -67,7 +137,8 @@ export const Search = () => {
           </p>
         </div>
       </div>
-      <Posts posts={searchPosts} sort={posts.sort} />
+
+      <Posts posts={searchPosts || posts.cards} sort={posts.sort} />
     </div>
   );
 };
